@@ -1,25 +1,15 @@
 import axios from "axios";
 import { AppDispatch } from "../app/store";
-import notesSlice, {
-  setNotes,
-  deleteNote,
-  newNote,
-  editNote,
-} from "../app/notesSlice";
+import { setNotes, deleteNote, newNote, editNote } from "../app/notesSlice";
 
 const axiosInstance = axios.create({
-  baseURL: "https://localhost:5001/notes",
+  baseURL: "https://localhost:7177/Notes",
 });
 
 export const GetNotes = async (dispatch: AppDispatch) => {
   try {
-    // api call
-    const notes = [
-      { id: 1, value: "Cook food" },
-      { id: 2, value: "Play games" },
-      { id: 3, value: "Wash clothes" },
-    ];
-    dispatch(setNotes(notes));
+    const { data } = await axiosInstance.get("");
+    dispatch(setNotes(data));
   } catch {
     console.log("Error!");
   }
@@ -27,29 +17,26 @@ export const GetNotes = async (dispatch: AppDispatch) => {
 
 export const DeleteNote = async (dispatch: AppDispatch, noteId: number) => {
   try {
-    // api call
+    await axiosInstance.delete(`/${noteId}`);
     dispatch(deleteNote(noteId));
   } catch {
     console.log("Error!");
   }
 };
 
-export const NewNote = async (dispatch: AppDispatch, note: any) => {
+export const NewNote = async (dispatch: AppDispatch, note:any) => {
   try {
-    // api call
-    const newNoteVal = { id: Math.random(), value: note };
-    dispatch(newNote(newNoteVal));
+    const { data } = await axiosInstance.post("", note);
+    dispatch(newNote(data));
   } catch {
     console.log("Error!");
   }
 };
 
-export const EditNote = async (dispatch: AppDispatch, note: any) => {
+export const EditNote = async (dispatch: AppDispatch, note:any) => {
   try {
-    // api call
-    // const editNoteVal = { id: note.id, value: note.value };
-    console.log(note)
-    dispatch(editNote(note));
+   const { data} = await axiosInstance.put("", note)
+    dispatch(editNote(data));
   } catch {
     console.log("Error!");
   }

@@ -34,7 +34,7 @@ export const EditNoteModal = ({ note }: EditNoteModalProps) => {
   return (
     <>
       <Button onClick={handleShow} className="btn btn-success btn-block">
-        Edit 
+        Edit
       </Button>
       <NoteModal
         note={note}
@@ -59,11 +59,11 @@ const NoteModal = ({
   show,
   handleClose,
 }: NoteModalProps) => {
-  const [modalNote, setModalNote] = useState("");
+  const [modalNote, setModalNote] = useState<any>({});
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(note) setModalNote(note.value);
+    setModalNote(note);
   }, [note]);
 
   return (
@@ -80,8 +80,10 @@ const NoteModal = ({
         <Modal.Body>
           <InputGroup>
             <FormControl
-              value={modalNote === null ? "" : modalNote}
-              onChange={(e) => setModalNote(e.target.value)}
+              value={modalNote === null ? "" : modalNote.value}
+              onChange={(e) =>
+                setModalNote({ ...modalNote, value: e.target.value })
+              }
             />
           </InputGroup>
         </Modal.Body>
