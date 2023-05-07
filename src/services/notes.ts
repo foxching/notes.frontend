@@ -1,6 +1,7 @@
 import axios from "axios";
 import { AppDispatch } from "../app/store";
 import { setNotes, deleteNote, newNote, editNote } from "../app/notesSlice";
+import { Note } from "../model/note";
 
 const axiosInstance = axios.create({
   baseURL: "https://localhost:7177/Notes",
@@ -24,7 +25,7 @@ export const DeleteNote = async (dispatch: AppDispatch, noteId: number) => {
   }
 };
 
-export const NewNote = async (dispatch: AppDispatch, note:any) => {
+export const NewNote = async (dispatch: AppDispatch, note: Note) => {
   try {
     const { data } = await axiosInstance.post("", note);
     dispatch(newNote(data));
@@ -33,9 +34,9 @@ export const NewNote = async (dispatch: AppDispatch, note:any) => {
   }
 };
 
-export const EditNote = async (dispatch: AppDispatch, note:any) => {
+export const EditNote = async (dispatch: AppDispatch, note: Note) => {
   try {
-   const { data} = await axiosInstance.put("", note)
+    const { data } = await axiosInstance.put("", note);
     dispatch(editNote(data));
   } catch {
     console.log("Error!");

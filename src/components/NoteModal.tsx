@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Form, Modal, Button, InputGroup, FormControl } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { EditNote, NewNote } from "../services/notes";
+import { Note } from "../model/note";
+import { AppDispatch } from "../app/store";
 
 export const NewNoteModal = () => {
   const [show, setShow] = useState(false);
@@ -14,7 +16,7 @@ export const NewNoteModal = () => {
         New Note
       </Button>
       <NoteModal
-        note={null}
+        note={undefined}
         handleFormSubmit={NewNote}
         show={show}
         handleClose={handleClose}
@@ -24,7 +26,7 @@ export const NewNoteModal = () => {
 };
 
 type EditNoteModalProps = {
-  note: any;
+  note: Note;
 };
 export const EditNoteModal = ({ note }: EditNoteModalProps) => {
   const [show, setShow] = useState(false);
@@ -47,10 +49,10 @@ export const EditNoteModal = ({ note }: EditNoteModalProps) => {
 };
 
 type NoteModalProps = {
-  note: any;
-  handleFormSubmit: any;
-  show: any;
-  handleClose: any;
+  note?: Note;
+  handleFormSubmit: (dispatch: AppDispatch, note: Note) => void;
+  show: boolean;
+  handleClose: () => void;
 };
 
 const NoteModal = ({
@@ -80,7 +82,7 @@ const NoteModal = ({
         <Modal.Body>
           <InputGroup>
             <FormControl
-              value={modalNote === null ? "" : modalNote.value}
+              value={modalNote === undefined ? "" : modalNote.value}
               onChange={(e) =>
                 setModalNote({ ...modalNote, value: e.target.value })
               }

@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Note } from "../model/note";
 
 export interface NoteState {
-  notes: any[];
+  notes: Note[];
 }
 
 const initialState: NoteState = {
@@ -12,19 +13,19 @@ export const notesSlice = createSlice({
   name: "notes",
   initialState,
   reducers: {
-    setNotes: (state, action) => {
+    setNotes: (state, action: PayloadAction<Note[]>) => {
       return { ...state, notes: [...action.payload] };
     },
-    deleteNote: (state, action) => {
+    deleteNote: (state, action: PayloadAction<number>) => {
       return {
         ...state,
         notes: [...state.notes.filter((note) => note.id !== action.payload)],
       };
     },
-    newNote: (state, action) => {
+    newNote: (state, action: PayloadAction<Note>) => {
       return { ...state, notes: [...state.notes, action.payload] };
     },
-    editNote: (state, action) => {
+    editNote: (state, action: PayloadAction<Note>) => {
       let notes = state.notes.map((note) => {
         if (note.id === action.payload.id) {
           note = action.payload;
